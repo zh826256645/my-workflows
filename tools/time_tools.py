@@ -98,6 +98,27 @@ class TimeQueryHandlerAbstract(QueryHandlerAbstract):
         """
         return {'items': items}
 
+    def format_time_to_timestamp(self, format_time: str) -> Second:
+        """
+        格式化时间转时间戳
+
+        :param str format_time: 格式化时间
+        :return Second: 时间戳
+        """
+        _format = None
+        if '-' in format_time and ':' in format_time:
+            _format = self.NAME_FORMAT['完整']
+        elif '-' in format_time:
+            _format = self.NAME_FORMAT['日期']
+        elif ':' in format_time:
+            _format = self.NAME_FORMAT['时间']
+
+        timestamp = None
+        if _format:
+            timestamp = time.mktime(time.strptime(format_time, _format))
+
+        return timestamp
+
 
 class TimestampQueryHandler(TimeQueryHandlerAbstract):
     """
@@ -148,27 +169,6 @@ class FormatTimeQueryHandler(TimeQueryHandlerAbstract):
         result = self.build_result(items)
         return result
 
-    def format_time_to_timestamp(self, format_time: str) -> Second:
-        """
-        格式化时间转时间戳
-
-        :param str format_time: 格式化时间
-        :return Second: 时间戳
-        """
-        _format = None
-        if '-' in format_time and ':' in format_time:
-            _format = self.NAME_FORMAT['完整']
-        elif '-' in format_time:
-            _format = self.NAME_FORMAT['日期']
-        elif ':' in format_time:
-            _format = self.NAME_FORMAT['时间']
-
-        timestamp = None
-        if _format:
-            timestamp = time.mktime(time.strptime(format_time, _format))
-
-        return timestamp
-
 
 class ObjectIdQueryHandler(TimeQueryHandlerAbstract):
     """
@@ -197,11 +197,59 @@ class ObjectIdQueryHandler(TimeQueryHandlerAbstract):
         return result
 
 
+class DateNameQueryHandler(TimeQueryHandlerAbstract):
+    """
+    处理昨天、今天的处理器
+    """
+    def is_available(self, query: str) -> bool:
+        """
+        判断是符合
+
+        :param str query: 查询数据
+        :return bool: 是否是 ObjectId
+        """
+        if query in ['今天', '昨天', '这周', '这个月']:
+            return True
+        return False
+
+    def get_result(self, query: str) -> dict:
+        timestamp = self.get_date_name_timestamp(query)
+
+        items = self.get_other_result(timestamp)
+        _items = self.get_timestamp_result(timestamp)
+        items.extend(_items)
+
+        result = self.build_result(items)
+        return result
+
+    def get_date_name_timestamp(self, date_name: str) -> Second:
+        """获取日期名对应的时间戳
+
+        :param str date_name: 日期名
+        :return int: 时间戳
+        """
+        format_time = None
+        if date_name == '今天':
+            format_time = time.strftime('%Y-%m-%d')
+        elif date_name == '昨天':
+            format_time = time.strftime('%Y-%m-%d', time.localtime(int(time.time()) - 86400))
+        elif date_name == '这周':
+            format_time = time.strftime('%Y-%m-%d', time.localtime(int(time.time()) -
+                                                                   datetime.datetime.now().weekday() * 86400))
+        elif date_name == '这个月':
+            format_time = time.strftime('%Y-%m-01')
+
+        if format_time:
+            return self.format_time_to_timestamp(format_time)
+        return int(time.time())
+
+
 def main():
     time_tools = QueryBase()
     time_tools.add_handler(TimestampQueryHandler())
     time_tools.add_handler(FormatTimeQueryHandler())
     time_tools.add_handler(ObjectIdQueryHandler())
+    time_tools.add_handler(DateNameQueryHandler())
 
     time_tools.main()
 
