@@ -10,7 +10,7 @@ sys.path.insert(0, join(abspath(dirname(__file__)), '../'))
 from public.base import QueryHandlerAbstract
 from public.base import QueryBase
 
-from spider.deelp import DeelpSpider
+from spider.deepl import DeeplSpider
 
 
 class TranslationHandler(QueryHandlerAbstract):
@@ -41,7 +41,7 @@ class TranslationHandler(QueryHandlerAbstract):
 
         items = list()
         if query:
-            result = DeelpSpider.translation_text(query, target_lang)
+            result = DeeplSpider.translation_text(query, target_lang)
             if result:
                 for index, beam in enumerate(result['result']['translations'][0]['beams']):
                     items.append({

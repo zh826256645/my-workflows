@@ -9,7 +9,7 @@ import time
 import requests
 
 
-class DeelpSpider:
+class DeeplSpider:
 
     target_lang_mapping = {
         'ZH': 'EN',
@@ -55,10 +55,10 @@ class DeelpSpider:
         url = 'https://www2.deepl.com/jsonrpc?method=LMT_handle_jobs'
 
         if not target_lang:
-            result = DeelpSpider.identify_text_lang(text)
+            result = DeeplSpider.identify_text_lang(text)
             if result:
                 text_lang = result['result']['lang']['detected']
-                target_lang = DeelpSpider.target_lang_mapping.get(text_lang.upper()) or 'ZH'
+                target_lang = DeeplSpider.target_lang_mapping.get(text_lang.upper()) or 'ZH'
             else:
                 target_lang = 'ZH'
 
@@ -66,7 +66,7 @@ class DeelpSpider:
             "jsonrpc": "2.0",
             "method": "LMT_handle_jobs",
             "params": {
-                "jobs": DeelpSpider.handle_text_params(text),
+                "jobs": DeeplSpider.handle_text_params(text),
                 "lang": {
                     "preference": {
                         "weight": {
@@ -108,7 +108,7 @@ class DeelpSpider:
             },
             "id": 5510002
         }
-        response = requests.post(url=url, json=data, headers=DeelpSpider.get_headers())
+        response = requests.post(url=url, json=data, headers=DeeplSpider.get_headers())
         if response.status_code == 200:
             return response.json()
         return None
@@ -163,7 +163,7 @@ class DeelpSpider:
             },
             "id": 5510001
         }
-        response = requests.post(url=url, json=data, headers=DeelpSpider.get_headers())
+        response = requests.post(url=url, json=data, headers=DeeplSpider.get_headers())
         if response.status_code == 200:
             return response.json()
         return None
@@ -192,7 +192,7 @@ class DeelpSpider:
 
 def main():
     text = """Hello, World"""
-    result = DeelpSpider.translation_text(text)
+    result = DeeplSpider.translation_text(text)
     print(result)
 
 
