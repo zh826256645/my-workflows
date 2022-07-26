@@ -41,7 +41,11 @@ class TranslationHandler(QueryHandlerAbstract):
 
         items = list()
         if query:
-            result = DeeplSpider.translation_text(query, target_lang)
+
+            result = DeeplSpider.translation_text(
+                text=query,
+                target_lang=target_lang,
+                prox_setting=self.config.PROXY_SETTING)
             if result:
                 for index, beam in enumerate(result['result']['translations'][0]['beams']):
                     items.append({

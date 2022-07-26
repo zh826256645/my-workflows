@@ -89,9 +89,7 @@ class IpQueryHandler(QueryHandlerAbstract):
         :param str ip: ip
         :return IpInfo: ip 信息
         """
-        from public.base import config
-
-        url = f'https://api.ip138.com/ip/?datatype=json&token={config.IP_138["token"]}'
+        url = f'https://api.ip138.com/ip/?datatype=json&token={self.config.IP_138["token"]}'
         if ip:
             url += f'&ip={ip}'
         response = requests.get(url)
