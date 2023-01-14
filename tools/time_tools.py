@@ -201,6 +201,18 @@ class DateNameQueryHandler(TimeQueryHandlerAbstract):
     """
     处理昨天、今天的处理器
     """
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.name_format_time = {
+            '今天': lambda: time.strftime('%Y-%m-%d'),
+            '明天': lambda: time.strftime('%Y-%m-%d', time.localtime(int(time.time()) + 86400)),
+            '昨天': lambda: time.strftime('%Y-%m-%d', time.localtime(int(time.time()) - 86400)),
+            '这周': lambda: time.strftime('%Y-%m-%d', time.localtime(
+                int(time.time()) - datetime.datetime.now().weekday() * 86400)),
+            '这个月': lambda: time.strftime('%Y-%m-01')
+        }
+
     def is_available(self, query: str) -> bool:
         """
         判断是符合
@@ -208,12 +220,13 @@ class DateNameQueryHandler(TimeQueryHandlerAbstract):
         :param str query: 查询数据
         :return bool: 是否是 ObjectId
         """
-        if query in ['今天', '昨天', '这周', '这个月']:
+        if query in self.name_format_time.keys():
             return True
         return False
 
     def get_result(self, query: str) -> dict:
-        timestamp = self.get_date_name_timestamp(query)
+        format_time = self.name_format_time[query]()
+        timestamp = self.format_time_to_timestamp(format_time)
 
         items = self.get_other_result(timestamp)
         _items = self.get_timestamp_result(timestamp)
@@ -221,27 +234,6 @@ class DateNameQueryHandler(TimeQueryHandlerAbstract):
 
         result = self.build_result(items)
         return result
-
-    def get_date_name_timestamp(self, date_name: str) -> Second:
-        """获取日期名对应的时间戳
-
-        :param str date_name: 日期名
-        :return int: 时间戳
-        """
-        format_time = None
-        if date_name == '今天':
-            format_time = time.strftime('%Y-%m-%d')
-        elif date_name == '昨天':
-            format_time = time.strftime('%Y-%m-%d', time.localtime(int(time.time()) - 86400))
-        elif date_name == '这周':
-            format_time = time.strftime('%Y-%m-%d', time.localtime(int(time.time()) -
-                                                                   datetime.datetime.now().weekday() * 86400))
-        elif date_name == '这个月':
-            format_time = time.strftime('%Y-%m-01')
-
-        if format_time:
-            return self.format_time_to_timestamp(format_time)
-        return int(time.time())
 
 
 def main():
