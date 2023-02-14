@@ -85,7 +85,7 @@ class QueryBase:
         """
         query = None
         if len(sys.argv) > 1:
-            query = sys.argv[1]
+            query = sys.argv[1].strip()
         return query
 
     def get_default_result(self) -> dict:
