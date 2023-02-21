@@ -5,6 +5,7 @@ Deelp 爬虫
 https://www.deepl.com/
 """
 import time
+import json
 import random
 
 import requests
@@ -59,6 +60,7 @@ class DeeplSpider:
             else:
                 target_lang = 'ZH'
 
+        _id = random.randint(30000000, 99999999)
         data = {
             "jsonrpc": "2.0",
             "method": "LMT_handle_jobs",
@@ -103,13 +105,28 @@ class DeeplSpider:
                     "formality":  None},
                 "timestamp": int(time.time() * 1000)
             },
-            "id": random.randint(30000000, 99999999)
+            "id": _id
         }
+
+        # 处理 deepl 的时间戳
+        text_count = len(text) + 1
+        data['params']['timestamp'] = data['params']['timestamp'] - data['params']['timestamp'] \
+            % text_count + text_count
+
+        data = json.dumps(data)
+        if (_id + 3) % 13 == 0 or (_id + 5) % 29 == 0:
+            data.replace('"method": "', '"method" : "')
+        else:
+            data.replace('"method": "', '"method": "')
+
+        headers = DeeplSpider.get_headers()
+        headers['Content-Type'] = 'application/json'
         response = requests.post(
             url=url,
-            json=data,
-            headers=DeeplSpider.get_headers(),
+            data=data,
+            headers=headers,
             proxies=prox_setting)
+        print(response.json())
         if response.status_code == 200:
             return response.json()
         return None
