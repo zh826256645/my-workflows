@@ -6,31 +6,25 @@
 """
 # info/my_info.py 需要的配置文件
 MY_INFO = {
-    '手机-主号': '188xxxxxxxx',
-    '手机-副号': '180xxxxxxxx',
-    'qq': '82xxxxxxx',
-    'qq邮箱': '82xxxxxxx@qq.com',
-    '谷歌邮箱': '82xxxxxxx@gmail.com',
-    '身份证号': '44xxxxxxxxxxxxxxxX',
-    '家庭地址': '广东省 xx市 xx区 xxxxxxxxxxxxx x 栋 xxx',
-    '公司地址': '广东省 xx市 xx区 xxxxxxxxxxxxx x 栋 xxx',
+    "手机-主号": "188xxxxxxxx",
+    "手机-副号": "180xxxxxxxx",
+    "qq": "82xxxxxxx",
+    "qq邮箱": "82xxxxxxx@qq.com",
+    "谷歌邮箱": "82xxxxxxx@gmail.com",
+    "身份证号": "44xxxxxxxxxxxxxxxX",
+    "家庭地址": "广东省 xx市 xx区 xxxxxxxxxxxxx x 栋 xxx",
+    "公司地址": "广东省 xx市 xx区 xxxxxxxxxxxxx x 栋 xxx",
 }
 
 # info/my_bookmarks.py 需要的配置文件
 MY_BOOKMARKS = {
-    '斗鱼': [
-        ('yyf', 'https://www.douyu.com/9999')
-    ],
-    'b站': [
-        ('首页', 'https://www.bilibili.com/')
-    ],
+    "斗鱼": [("yyf", "https://www.douyu.com/9999")],
+    "b站": [("首页", "https://www.bilibili.com/")],
 }
 
 # tools/ip_tools.py 需要的配置
 # 从 IP 138 网站获取 api token
-IP_138 = {
-    'token': ''
-}
+IP_138 = {"token": ""}
 
 # 代理设置
 # 配置后, Deepl 的爬虫会使用代理

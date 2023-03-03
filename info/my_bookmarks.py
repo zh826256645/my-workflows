@@ -7,7 +7,7 @@ import re
 import sys
 from os.path import abspath, join, dirname
 
-sys.path.insert(0, join(abspath(dirname(__file__)), '../'))
+sys.path.insert(0, join(abspath(dirname(__file__)), "../"))
 
 from public.base import QueryHandlerAbstract
 from public.base import QueryBase
@@ -28,7 +28,7 @@ class MyBookmarksQueryHandler(QueryHandlerAbstract):
         name_url = dict()
         for site_name, title_urls in self.bookmarks.items():
             for title, url in title_urls:
-                name_url[f'{site_name.lower()} {title.lower()}'] = url
+                name_url[f"{site_name.lower()} {title.lower()}"] = url
 
         return name_url
 
@@ -37,7 +37,7 @@ class MyBookmarksQueryHandler(QueryHandlerAbstract):
 
     def get_result(self, query: str) -> bool:
         if not query:
-            query = ''
+            query = ""
 
         query = query.lower()
         query = f'.*{query.replace(" ", ".*")}.*'
@@ -46,14 +46,9 @@ class MyBookmarksQueryHandler(QueryHandlerAbstract):
 
         items = list()
         for name in match_names:
-            items.append({
-                'arg': self.name_url[name],
-                'title': name,
-                'subtitle': name,
-                'icon': ''
-            })
+            items.append({"arg": self.name_url[name], "title": name, "subtitle": name, "icon": ""})
 
-        result = {'items': items}
+        result = {"items": items}
         return result
 
 
@@ -66,5 +61,5 @@ def main():
     my_info.main()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

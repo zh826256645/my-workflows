@@ -14,7 +14,6 @@ except ImportError:
 
 
 class QueryHandlerAbstract(metaclass=ABCMeta):
-
     def __init__(self) -> None:
         self.config = config
 
@@ -40,9 +39,7 @@ class QueryHandlerAbstract(metaclass=ABCMeta):
 
 
 class QueryBase:
-
-    def __init__(self, default_result: dict = None,
-                 query_handlers: List[QueryHandlerAbstract] = None):
+    def __init__(self, default_result: dict = None, query_handlers: List[QueryHandlerAbstract] = None):
         """
         初始化
 

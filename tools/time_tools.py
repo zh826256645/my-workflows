@@ -5,7 +5,7 @@
 import sys
 from os.path import abspath, join, dirname
 
-sys.path.insert(0, join(abspath(dirname(__file__)), '../'))
+sys.path.insert(0, join(abspath(dirname(__file__)), "../"))
 
 import time
 import datetime
@@ -28,13 +28,13 @@ class TimeQueryHandlerAbstract(QueryHandlerAbstract):
         super().__init__()
 
         self.NAME_FORMAT = {
-            '完整': '%Y-%m-%d %H:%M:%S',
-            '中文': '%Y年%m月%d日 %H时%M分%S秒',
-            '日期': '%Y-%m-%d',
-            '时间': '%H:%M:%S',
+            "完整": "%Y-%m-%d %H:%M:%S",
+            "中文": "%Y年%m月%d日 %H时%M分%S秒",
+            "日期": "%Y-%m-%d",
+            "时间": "%H:%M:%S",
         }
 
-        self.WEEK_NAMES = ['一', '二', '三', '四', '五', '六', '天']
+        self.WEEK_NAMES = ["一", "二", "三", "四", "五", "六", "天"]
 
     def get_timestamp_result(self, timestamp: Second) -> list:
         """
@@ -46,30 +46,15 @@ class TimeQueryHandlerAbstract(QueryHandlerAbstract):
         items = list()
         for name, _format in self.NAME_FORMAT.items():
             format_time = time.strftime(_format, time.localtime(timestamp))
-            item = {
-                'arg': format_time,
-                'title': format_time,
-                'subtitle': name,
-                'icon': ''
-            }
+            item = {"arg": format_time, "title": format_time, "subtitle": name, "icon": ""}
             items.append(item)
 
         date = datetime.datetime.fromtimestamp(timestamp)
-        week_name = f'星期{self.WEEK_NAMES[date.weekday()]}'
-        items.append({
-            'arg': week_name,
-            'title': week_name,
-            'subtitle': '星期',
-            'icon': ''
-        })
+        week_name = f"星期{self.WEEK_NAMES[date.weekday()]}"
+        items.append({"arg": week_name, "title": week_name, "subtitle": "星期", "icon": ""})
 
-        month_name = f'{date.month}月'
-        items.append({
-            'arg': month_name,
-            'title': month_name,
-            'subtitle': '月份',
-            'icon': ''
-        })
+        month_name = f"{date.month}月"
+        items.append({"arg": month_name, "title": month_name, "subtitle": "月份", "icon": ""})
 
         return items
 
@@ -81,12 +66,7 @@ class TimeQueryHandlerAbstract(QueryHandlerAbstract):
         :return list: 结果
         """
         items = list()
-        items.append({
-            'arg': timestamp,
-            'title': timestamp,
-            'subtitle': '时间戳',
-            'icon': ''
-        })
+        items.append({"arg": timestamp, "title": timestamp, "subtitle": "时间戳", "icon": ""})
         return items
 
     def build_result(self, items: list) -> dict:
@@ -96,7 +76,7 @@ class TimeQueryHandlerAbstract(QueryHandlerAbstract):
         :param list items: 数据列表
         :return dict: 结果
         """
-        return {'items': items}
+        return {"items": items}
 
     def format_time_to_timestamp(self, format_time: str) -> Second:
         """
@@ -106,12 +86,12 @@ class TimeQueryHandlerAbstract(QueryHandlerAbstract):
         :return Second: 时间戳
         """
         _format = None
-        if '-' in format_time and ':' in format_time:
-            _format = self.NAME_FORMAT['完整']
-        elif '-' in format_time:
-            _format = self.NAME_FORMAT['日期']
-        elif ':' in format_time:
-            _format = self.NAME_FORMAT['时间']
+        if "-" in format_time and ":" in format_time:
+            _format = self.NAME_FORMAT["完整"]
+        elif "-" in format_time:
+            _format = self.NAME_FORMAT["日期"]
+        elif ":" in format_time:
+            _format = self.NAME_FORMAT["时间"]
 
         timestamp = None
         if _format:
@@ -147,6 +127,7 @@ class FormatTimeQueryHandler(TimeQueryHandlerAbstract):
     """
     处理格式化时间的处理器
     """
+
     def is_available(self, query: str) -> bool:
         """
         判断是否是格式化时间
@@ -154,7 +135,7 @@ class FormatTimeQueryHandler(TimeQueryHandlerAbstract):
         :param str query: 查询数据
         :return bool: 是否是格式化时间
         """
-        if '-' in query or ':' in query:
+        if "-" in query or ":" in query:
             return True
         return False
 
@@ -174,6 +155,7 @@ class ObjectIdQueryHandler(TimeQueryHandlerAbstract):
     """
     处理 ObjectId 的处理器
     """
+
     def is_available(self, query: str) -> bool:
         """
         判断是否是 ObjectId
@@ -201,16 +183,18 @@ class DateNameQueryHandler(TimeQueryHandlerAbstract):
     """
     处理昨天、今天的处理器
     """
+
     def __init__(self) -> None:
         super().__init__()
 
         self.name_format_time = {
-            '今天': lambda: time.strftime('%Y-%m-%d'),
-            '明天': lambda: time.strftime('%Y-%m-%d', time.localtime(int(time.time()) + 86400)),
-            '昨天': lambda: time.strftime('%Y-%m-%d', time.localtime(int(time.time()) - 86400)),
-            '这周': lambda: time.strftime('%Y-%m-%d', time.localtime(
-                int(time.time()) - datetime.datetime.now().weekday() * 86400)),
-            '这个月': lambda: time.strftime('%Y-%m-01')
+            "今天": lambda: time.strftime("%Y-%m-%d"),
+            "明天": lambda: time.strftime("%Y-%m-%d", time.localtime(int(time.time()) + 86400)),
+            "昨天": lambda: time.strftime("%Y-%m-%d", time.localtime(int(time.time()) - 86400)),
+            "这周": lambda: time.strftime(
+                "%Y-%m-%d", time.localtime(int(time.time()) - datetime.datetime.now().weekday() * 86400)
+            ),
+            "这个月": lambda: time.strftime("%Y-%m-01"),
         }
 
     def is_available(self, query: str) -> bool:
@@ -246,5 +230,5 @@ def main():
     time_tools.main()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

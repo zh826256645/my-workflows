@@ -5,7 +5,7 @@
 import sys
 from os.path import abspath, join, dirname
 
-sys.path.insert(0, join(abspath(dirname(__file__)), '../'))
+sys.path.insert(0, join(abspath(dirname(__file__)), "../"))
 
 import time
 from typing import Tuple
@@ -23,29 +23,29 @@ class ExchRateHandler(QueryHandlerAbstract):
         super().__init__()
 
         self.NAME_ISO = {
-            '人民币': 'CNY',
-            '美元': 'USD',
-            '日元': 'JPY',
-            '港元': 'HKD',
-            '新台币': 'TWD',
-            '澳元': 'MOP',
-            '欧元': 'EUR',
-            '英镑': 'GBP',
-            '韩元': 'KRW',
+            "人民币": "CNY",
+            "美元": "USD",
+            "日元": "JPY",
+            "港元": "HKD",
+            "新台币": "TWD",
+            "澳元": "MOP",
+            "欧元": "EUR",
+            "英镑": "GBP",
+            "韩元": "KRW",
             # '克朗': 'DKK',
             # '格里夫纳': 'UAH',
             # '先令': 'UGX',
             # '比索': 'UYI',
             # '新谢克尔': 'ILS',
-            '卢布': 'RUB',
-            '卢比': 'INR',
-            '瑞郎': 'CHF',
+            "卢布": "RUB",
+            "卢比": "INR",
+            "瑞郎": "CHF",
             # '瓦图': 'VUV',
-            '新西兰元': 'NZD',
-            '缅币': 'MMK',
-            '越南盾': 'VND',
-            '泰铢': 'THB',
-            '加元': 'CAD'
+            "新西兰元": "NZD",
+            "缅币": "MMK",
+            "越南盾": "VND",
+            "泰铢": "THB",
+            "加元": "CAD",
         }
 
         self.num_method = {
@@ -67,7 +67,7 @@ class ExchRateHandler(QueryHandlerAbstract):
                 currencies = list()
                 amount = 0
                 for item in data:
-                    if item.replace('.', '').isdigit():
+                    if item.replace(".", "").isdigit():
                         amount = item
                     elif item in names:
                         currencies.append(item)
@@ -85,7 +85,7 @@ class ExchRateHandler(QueryHandlerAbstract):
         method = self.num_method.get(params_num)
 
         items = method(query)
-        return {'items': items}
+        return {"items": items}
 
     def get_name_iso_info(self, query: str = None):
         items = list()
@@ -93,12 +93,7 @@ class ExchRateHandler(QueryHandlerAbstract):
             if query and query != name:
                 continue
 
-            items.append({
-                'arg': iso,
-                'title': iso,
-                'subtitle': name,
-                'icon': ''
-            })
+            items.append({"arg": iso, "title": iso, "subtitle": name, "icon": ""})
 
         return items
 
@@ -122,27 +117,26 @@ class ExchRateHandler(QueryHandlerAbstract):
                 if currency == name or (to_currency and to_currency != name):
                     continue
 
-                items.append({
-                    'arg': round(currency_rate[iso] * amount, 2),
-                    'title': f'{currency} {amount} = {name} {round(currency_rate[iso] * amount, 2)}',
-                    'subtitle': name,
-                    'icon': ''
-                })
+                items.append(
+                    {
+                        "arg": round(currency_rate[iso] * amount, 2),
+                        "title": f"{currency} {amount} = {name} {round(currency_rate[iso] * amount, 2)}",
+                        "subtitle": name,
+                        "icon": "",
+                    }
+                )
 
         return items
 
     def get_currency_rate(self, iso: str) -> dict():
         """获取货币转换数据"""
         url = f"https://api.apilayer.com/currency_data/historical?date={time.strftime('%Y-%m-%d')}&source={iso}"
-        headers = {
-            "apikey": "eBFDMeTnmcDRQD5Zzc51iXlqO79Oa7Mh"
-        }
+        headers = {"apikey": "eBFDMeTnmcDRQD5Zzc51iXlqO79Oa7Mh"}
         response = requests.request("GET", url, headers=headers)
         if response.status_code == 200:
             data = response.json()
-            if data.get('success') is True and data.get('quotes'):
-                return {name.replace(iso, ''): rate
-                        for name, rate in data['quotes'].items()}
+            if data.get("success") is True and data.get("quotes"):
+                return {name.replace(iso, ""): rate for name, rate in data["quotes"].items()}
         return None
 
 
@@ -151,10 +145,10 @@ def main():
     exch_rate_handler = ExchRateHandler()
 
     exchange_rate_tools.add_handler(exch_rate_handler)
-    exchange_rate_tools.default_result = exch_rate_handler.get_result('')
+    exchange_rate_tools.default_result = exch_rate_handler.get_result("")
 
     exchange_rate_tools.main()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
