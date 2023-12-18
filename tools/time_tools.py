@@ -46,15 +46,24 @@ class TimeQueryHandlerAbstract(QueryHandlerAbstract):
         items = list()
         for name, _format in self.NAME_FORMAT.items():
             format_time = time.strftime(_format, time.localtime(timestamp))
-            item = {"arg": format_time, "title": format_time, "subtitle": name, "icon": ""}
+            item = {
+                "arg": format_time,
+                "title": format_time,
+                "subtitle": name,
+                "icon": "",
+            }
             items.append(item)
 
         date = datetime.datetime.fromtimestamp(timestamp)
         week_name = f"星期{self.WEEK_NAMES[date.weekday()]}"
-        items.append({"arg": week_name, "title": week_name, "subtitle": "星期", "icon": ""})
+        items.append(
+            {"arg": week_name, "title": week_name, "subtitle": "星期", "icon": ""}
+        )
 
         month_name = f"{date.month}月"
-        items.append({"arg": month_name, "title": month_name, "subtitle": "月份", "icon": ""})
+        items.append(
+            {"arg": month_name, "title": month_name, "subtitle": "月份", "icon": ""}
+        )
 
         return items
 
@@ -66,7 +75,9 @@ class TimeQueryHandlerAbstract(QueryHandlerAbstract):
         :return list: 结果
         """
         items = list()
-        items.append({"arg": timestamp, "title": timestamp, "subtitle": "时间戳", "icon": ""})
+        items.append(
+            {"arg": timestamp, "title": timestamp, "subtitle": "时间戳", "icon": ""}
+        )
         return items
 
     def build_result(self, items: list) -> dict:
@@ -98,6 +109,23 @@ class TimeQueryHandlerAbstract(QueryHandlerAbstract):
             timestamp = time.mktime(time.strptime(format_time, _format))
 
         return timestamp
+
+
+class TimeFormatHandler(TimeQueryHandlerAbstract):
+    """时间格式处理器"""
+
+    def is_available(self, query: str) -> bool:
+        return False
+
+    def get_result(self, query: str) -> dict:
+        items = []
+        for name, _format in self.NAME_FORMAT.items():
+            items.append(
+                {"arg": _format, "title": _format, "subtitle": name, "icon": ""}
+            )
+
+        result = self.build_result(items)
+        return result
 
 
 class TimestampQueryHandler(TimeQueryHandlerAbstract):
@@ -189,10 +217,17 @@ class DateNameQueryHandler(TimeQueryHandlerAbstract):
 
         self.name_format_time = {
             "今天": lambda: time.strftime("%Y-%m-%d"),
-            "明天": lambda: time.strftime("%Y-%m-%d", time.localtime(int(time.time()) + 86400)),
-            "昨天": lambda: time.strftime("%Y-%m-%d", time.localtime(int(time.time()) - 86400)),
+            "明天": lambda: time.strftime(
+                "%Y-%m-%d", time.localtime(int(time.time()) + 86400)
+            ),
+            "昨天": lambda: time.strftime(
+                "%Y-%m-%d", time.localtime(int(time.time()) - 86400)
+            ),
             "这周": lambda: time.strftime(
-                "%Y-%m-%d", time.localtime(int(time.time()) - datetime.datetime.now().weekday() * 86400)
+                "%Y-%m-%d",
+                time.localtime(
+                    int(time.time()) - datetime.datetime.now().weekday() * 86400
+                ),
             ),
             "这个月": lambda: time.strftime("%Y-%m-01"),
         }
@@ -222,6 +257,9 @@ class DateNameQueryHandler(TimeQueryHandlerAbstract):
 
 def main():
     time_tools = QueryBase()
+
+    time_tools.default_result = TimeFormatHandler().get_result("")
+
     time_tools.add_handler(TimestampQueryHandler())
     time_tools.add_handler(FormatTimeQueryHandler())
     time_tools.add_handler(ObjectIdQueryHandler())
