@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/local/bin/python3.10
 """
 查询我的信息
 """
@@ -32,7 +32,14 @@ class MyInfoQueryHandler(QueryHandlerAbstract):
         keys = [key for key in self.info.keys() if query in key]
         items = list()
         for key in keys:
-            items.append({"arg": self.info[key], "title": self.info[key], "subtitle": key, "icon": ""})
+            items.append(
+                {
+                    "arg": self.info[key],
+                    "title": self.info[key],
+                    "subtitle": key,
+                    "icon": "",
+                }
+            )
 
         result = {"items": items}
         return result

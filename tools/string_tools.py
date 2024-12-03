@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/Users/zhonghao/miniconda3/bin/python3
 """
 字符串工具
 """
@@ -20,7 +20,11 @@ class StringHandler(QueryHandlerAbstract):
     def __init__(self) -> None:
         super().__init__()
 
-        self.handle_methods = [self.get_len_result, self.get_base64_result, self.get_md5_result]
+        self.handle_methods = [
+            self.get_len_result,
+            self.get_base64_result,
+            self.get_md5_result,
+        ]
 
     def is_available(self, query: str) -> bool:
         return True

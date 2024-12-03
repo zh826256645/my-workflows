@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/local/bin/python3.10
 """
 汇率转换工具
 """
@@ -136,7 +136,9 @@ class ExchRateHandler(QueryHandlerAbstract):
         if response.status_code == 200:
             data = response.json()
             if data.get("success") is True and data.get("quotes"):
-                return {name.replace(iso, ""): rate for name, rate in data["quotes"].items()}
+                return {
+                    name.replace(iso, ""): rate for name, rate in data["quotes"].items()
+                }
         return None
 
 

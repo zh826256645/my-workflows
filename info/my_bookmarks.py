@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/local/bin/python3.10
 """
 查询我的书签
 """
@@ -35,7 +35,7 @@ class MyBookmarksQueryHandler(QueryHandlerAbstract):
     def is_available(self, query: str) -> bool:
         return True
 
-    def get_result(self, query: str) -> bool:
+    def get_result(self, query: str) -> dict:
         if not query:
             query = ""
 
@@ -46,7 +46,14 @@ class MyBookmarksQueryHandler(QueryHandlerAbstract):
 
         items = list()
         for name in match_names:
-            items.append({"arg": self.name_url[name], "title": name, "subtitle": name, "icon": ""})
+            items.append(
+                {
+                    "arg": self.name_url[name],
+                    "title": name,
+                    "subtitle": name,
+                    "icon": "",
+                }
+            )
 
         result = {"items": items}
         return result

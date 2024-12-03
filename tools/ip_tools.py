@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/local/bin/python3.10
 """
 ip 识别工具
 """
@@ -62,7 +62,9 @@ class IpInfo:
         for key, name in self.key_name.items():
             value = getattr(self, key)
             if value:
-                items.append({"arg": value, "title": value, "subtitle": name, "icon": ""})
+                items.append(
+                    {"arg": value, "title": value, "subtitle": name, "icon": ""}
+                )
         return items
 
 

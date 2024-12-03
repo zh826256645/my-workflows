@@ -29,3 +29,9 @@ IP_138 = {"token": ""}
 # 代理设置
 # 配置后, Deepl 的爬虫会使用代理
 PROXY_SETTING = None
+
+# ollama 的 host
+OLLAMA_HOST = ""
+
+# deepseek 的 api key
+DEEPSEEK_API_KEY = ""
