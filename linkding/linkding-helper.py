@@ -9,9 +9,9 @@ class AlfredItem:
     def __init__(
         self,
         title: str,
-        subtitle: str | None = None,
-        arg: str | None = None,
-        quicklookurl: str | None = None,
+        subtitle: str = None,
+        arg: str = None,
+        quicklookurl: str = None,
     ):
         self._title = title
         self._subtitle = subtitle

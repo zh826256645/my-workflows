@@ -15,7 +15,7 @@ from openai import OpenAI
 
 try:
     import config
-except Exception:
+except ImportError:
     import default_config as config
 
 

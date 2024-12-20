@@ -8,13 +8,11 @@ from os.path import abspath, join, dirname
 sys.path.insert(0, join(abspath(dirname(__file__)), "../"))
 
 import re
-import json
-import concurrent.futures
 
 from case_convert import camel_case, snake_case
 
-from public.base import QueryBase
 from public.base import QueryHandlerAbstract
+from public.thread_base import QueryThreadBase
 from ai.utils import get_ollama_message, get_deepseek_message
 
 prompt = """### Role: 资深软件开发专家
@@ -177,33 +175,8 @@ class DeepseekGeneratedHandler(AiGeneratedHandler):
         return ai_message.content
 
 
-class GenerateQuery(QueryBase):
-
-    def main(self):
-        query = self.get_query()
-
-        result = self.default_result or self.get_default_result()
-
-        if query:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
-                todo_list = []
-                for handler in self.query_handlers:
-                    if handler.is_available(query):
-                        future = executor.submit(handler.get_result, query)
-                        todo_list.append(future)
-
-                for future in concurrent.futures.as_completed(todo_list):  # 并发执行
-                    if not result.get("items"):
-                        result["items"] = []
-                    if items := future.result().get("items"):
-                        result["items"].extend(items)
-
-        if result:
-            print(json.dumps(result))
-
-
 def main():
-    generate_query = GenerateQuery()
+    generate_query = QueryThreadBase()
     generate_query.add_handler(OllamaGeneratedHandler())
     generate_query.add_handler(DeepseekGeneratedHandler())
 
