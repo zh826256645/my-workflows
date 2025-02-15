@@ -35,3 +35,6 @@ OLLAMA_HOST = ""
 
 # deepseek 的 api key
 DEEPSEEK_API_KEY = ""
+
+# iMessage 数据库文件路径
+IMESSAGE_DP_PATH = "/Users/{USERNAME}/Library/Messages/chat.db"

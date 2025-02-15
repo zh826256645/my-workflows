@@ -3,7 +3,7 @@
 让 AI 生成变量名
 """
 import sys
-from os.path import abspath, join, dirname
+from os.path import abspath, dirname, join
 
 sys.path.insert(0, join(abspath(dirname(__file__)), "../"))
 
@@ -11,9 +11,9 @@ import re
 
 from case_convert import camel_case, snake_case
 
+from ai.utils import get_deepseek_message, get_ollama_message
 from public.base import QueryHandlerAbstract
 from public.thread_base import QueryThreadBase
-from ai.utils import get_ollama_message, get_deepseek_message
 
 prompt = """### Role: 资深软件开发专家
 
