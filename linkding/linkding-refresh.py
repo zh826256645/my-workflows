@@ -1,9 +1,9 @@
-#!/usr/local/bin/python3
+#!/Users/zhonghao/miniconda3/envs/workflows/bin/python
 # created by Christian Wilhelm
-import urllib.request
-import os
 import json
+import os
 import pathlib
+import urllib.request
 
 
 class LinkdingClient:

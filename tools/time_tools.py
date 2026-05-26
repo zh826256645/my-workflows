@@ -1,20 +1,19 @@
-#!/usr/local/bin/python3.10
+#!/Users/zhonghao/miniconda3/envs/workflows/bin/python
 """
 时间处理工具
 """
+
 import sys
-from os.path import abspath, join, dirname
+from os.path import abspath, dirname, join
 
 sys.path.insert(0, join(abspath(dirname(__file__)), "../"))
 
-import time
 import datetime
+import time
 
 from bson.objectid import ObjectId
 
-from public.base import QueryHandlerAbstract
-from public.base import QueryBase
-
+from public.base import QueryBase, QueryHandlerAbstract
 
 Second = int
 

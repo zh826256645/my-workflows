@@ -1,14 +1,14 @@
-#!/usr/local/bin/python3.10
+#!/Users/zhonghao/miniconda3/envs/workflows/bin/python
 """
 查询我的信息
 """
+
 import sys
-from os.path import abspath, join, dirname
+from os.path import abspath, dirname, join
 
 sys.path.insert(0, join(abspath(dirname(__file__)), "../"))
 
-from public.base import QueryHandlerAbstract
-from public.base import QueryBase
+from public.base import QueryBase, QueryHandlerAbstract
 
 
 class MyInfoQueryHandler(QueryHandlerAbstract):

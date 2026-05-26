@@ -1,7 +1,8 @@
-#!/Users/zhonghao/miniconda3/bin/python3
+#!/Users/zhonghao/miniconda3/envs/workflows/bin/python
 """
 iMessages 工具
 """
+
 import re
 import sqlite3
 import sys
@@ -45,7 +46,7 @@ class IMessageHandler(QueryHandlerAbstract):
             'SELECT text FROM message WHERE datetime(date/1000000000 + 978307200,"unixepoch","localtime") > datetime("now","localtime","-120 second") ORDER BY date DESC LIMIT 1;'
         )
         title = res.fetchone()
-        if title and "验证码" in title[0]:
+        if title and "验证" in title[0]:
             result = re.search("\d{4,6}", title[0])
             if result:
                 return {

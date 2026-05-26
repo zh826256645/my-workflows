@@ -1,7 +1,8 @@
-#!/usr/local/bin/python3.10
+#!/Users/zhonghao/miniconda3/envs/workflows/bin/python
 """
 让 AI 生成变量名
 """
+
 import sys
 from os.path import abspath, dirname, join
 
@@ -89,7 +90,6 @@ messages = [
 
 
 class AiGeneratedHandler(QueryHandlerAbstract):
-
     @property
     def ai_name(self):
         return "AI"
@@ -175,10 +175,25 @@ class DeepseekGeneratedHandler(AiGeneratedHandler):
         return ai_message.content
 
 
+class ModelScopeGeneratedHandler(AiGeneratedHandler):
+    """通过魔搭生成变量名"""
+
+    @property
+    def ai_name(self):
+        return "ModelScope"
+
+    def get_ai_message(self, query):
+        _messages = messages[:]
+        _messages.append({"role": "user", "content": query})
+        ai_message = get_deepseek_message(_messages)
+        return ai_message.content
+
+
 def main():
     generate_query = QueryThreadBase()
-    generate_query.add_handler(OllamaGeneratedHandler())
+    # generate_query.add_handler(OllamaGeneratedHandler())
     generate_query.add_handler(DeepseekGeneratedHandler())
+    # generate_query.add_handler(ModelScopeGeneratedHandler())
 
     generate_query.main()
 

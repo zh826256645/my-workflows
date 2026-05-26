@@ -1,16 +1,15 @@
-#!/usr/local/bin/python3.10
+#!/Users/zhonghao/miniconda3/envs/workflows/bin/python
 """
 查询我的书签
 """
-import re
 
+import re
 import sys
-from os.path import abspath, join, dirname
+from os.path import abspath, dirname, join
 
 sys.path.insert(0, join(abspath(dirname(__file__)), "../"))
 
-from public.base import QueryHandlerAbstract
-from public.base import QueryBase
+from public.base import QueryBase, QueryHandlerAbstract
 
 
 class MyBookmarksQueryHandler(QueryHandlerAbstract):
@@ -40,7 +39,7 @@ class MyBookmarksQueryHandler(QueryHandlerAbstract):
             query = ""
 
         query = query.lower()
-        query = f'.*{query.replace(" ", ".*")}.*'
+        query = f".*{query.replace(' ', '.*')}.*"
         names = [name for name, _ in self.name_url.items()]
         match_names = [name for name in names if re.match(query, name)][:10]
 

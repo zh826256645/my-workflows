@@ -1,29 +1,29 @@
-#!/usr/local/bin/python3.10
+#!/Users/zhonghao/miniconda3/envs/workflows/bin/python
 """
 ip 识别工具
 """
+
 import sys
-from os.path import abspath, join, dirname
+from os.path import abspath, dirname, join
 
 sys.path.insert(0, join(abspath(dirname(__file__)), "../"))
 
 import requests
 
-from public.base import QueryHandlerAbstract
-from public.base import QueryBase
+from public.base import QueryBase, QueryHandlerAbstract
 
 
 class IpInfo:
     def __init__(
         self,
-        ip: str = None,
-        country: str = None,
-        region: str = None,
-        city: str = None,
-        district: str = None,
-        isp: str = None,
-        zip: str = None,
-        zone: str = None,
+        ip: str | None = None,
+        country: str | None = None,
+        region: str | None = None,
+        city: str | None = None,
+        district: str | None = None,
+        isp: str | None = None,
+        zip: str | None = None,
+        zone: str | None = None,
     ) -> None:
         """
         IP 信息
@@ -76,7 +76,7 @@ class IpQueryHandler(QueryHandlerAbstract):
             return True
         return False
 
-    def get_result(self, query: str) -> dict:
+    def get_result(self, query: str | None) -> dict | None:
         if query == "my":
             query = None
 
@@ -86,15 +86,16 @@ class IpQueryHandler(QueryHandlerAbstract):
             if items:
                 result = {"items": items}
                 return result
+        return None
 
-    def get_ip_info_by_ip138(self, ip: str) -> IpInfo:
+    def get_ip_info_by_ip138(self, ip: str | None) -> IpInfo | None:
         """
         通过 ip138 查询 ip 信息
 
         :param str ip: ip
         :return IpInfo: ip 信息
         """
-        url = f'https://api.ip138.com/ip/?datatype=json&token={self.config.IP_138["token"]}'
+        url = f"https://api.ip138.com/ip/?datatype=json&token={self.config.IP_138['token']}"
         if ip:
             url += f"&ip={ip}"
         response = requests.get(url)

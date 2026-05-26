@@ -2,8 +2,9 @@
 """
 基础类
 """
-import sys
+
 import json
+import sys
 from abc import ABCMeta, abstractmethod
 from typing import List
 
@@ -28,7 +29,7 @@ class QueryHandlerAbstract(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def get_result(self, query: str) -> dict:
+    def get_result(self, query: str) -> dict | None:
         """
         获取结果
 
@@ -41,8 +42,8 @@ class QueryHandlerAbstract(metaclass=ABCMeta):
 class QueryBase:
     def __init__(
         self,
-        default_result: dict = None,
-        query_handlers: List[QueryHandlerAbstract] = None,
+        default_result: dict | None = None,
+        query_handlers: List[QueryHandlerAbstract] | None = None,
     ):
         """
         初始化
@@ -78,7 +79,7 @@ class QueryBase:
         if result:
             print(json.dumps(result))
 
-    def get_query(self) -> str:
+    def get_query(self) -> str | None:
         """
         获取查询数据
 

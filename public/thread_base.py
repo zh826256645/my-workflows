@@ -2,8 +2,9 @@
 """
 多线程基类
 """
-import json
+
 import concurrent.futures
+import json
 
 from public.base import QueryBase
 

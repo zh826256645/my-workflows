@@ -36,5 +36,11 @@ OLLAMA_HOST = ""
 # deepseek 的 api key
 DEEPSEEK_API_KEY = ""
 
+# 魔搭 的 api key
+MODEL_SCOPE_API_KEY = ""
+
+# Nvidia NIM 的 api key
+NVIDIA_NIM_API_KEY = ""
+
 # iMessage 数据库文件路径
 IMESSAGE_DP_PATH = "/Users/{USERNAME}/Library/Messages/chat.db"

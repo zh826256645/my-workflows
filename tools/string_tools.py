@@ -1,17 +1,17 @@
-#!/Users/zhonghao/miniconda3/bin/python3
+#!/Users/zhonghao/miniconda3/envs/workflows/bin/python
 """
 字符串工具
 """
+
 import sys
-from os.path import abspath, join, dirname
+from os.path import abspath, dirname, join
 
 sys.path.insert(0, join(abspath(dirname(__file__)), "../"))
 
 import base64
 import hashlib
 
-from public.base import QueryHandlerAbstract
-from public.base import QueryBase
+from public.base import QueryBase, QueryHandlerAbstract
 
 
 class StringHandler(QueryHandlerAbstract):

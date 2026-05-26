@@ -1,9 +1,10 @@
-#!/usr/local/bin/python3.10
+#!/Users/zhonghao/miniconda3/envs/workflows/bin/python
 """
 汇率转换工具
 """
+
 import sys
-from os.path import abspath, join, dirname
+from os.path import abspath, dirname, join
 
 sys.path.insert(0, join(abspath(dirname(__file__)), "../"))
 
@@ -12,8 +13,7 @@ from typing import Tuple
 
 import requests
 
-from public.base import QueryHandlerAbstract
-from public.base import QueryBase
+from public.base import QueryBase, QueryHandlerAbstract
 
 
 class ExchRateHandler(QueryHandlerAbstract):
@@ -87,7 +87,7 @@ class ExchRateHandler(QueryHandlerAbstract):
         items = method(query)
         return {"items": items}
 
-    def get_name_iso_info(self, query: str = None):
+    def get_name_iso_info(self, query: str | None = None):
         items = list()
         for name, iso in self.NAME_ISO.items():
             if query and query != name:
@@ -97,7 +97,7 @@ class ExchRateHandler(QueryHandlerAbstract):
 
         return items
 
-    def get_currency_exchange(self, query: str) -> list():
+    def get_currency_exchange(self, query: str) -> list:
         """汇率转换"""
         params = self.query_parse(query)
         currency = params[0]
@@ -128,7 +128,7 @@ class ExchRateHandler(QueryHandlerAbstract):
 
         return items
 
-    def get_currency_rate(self, iso: str) -> dict():
+    def get_currency_rate(self, iso: str) -> dict | None:
         """获取货币转换数据"""
         url = f"https://api.apilayer.com/currency_data/historical?date={time.strftime('%Y-%m-%d')}&source={iso}"
         headers = {"apikey": "eBFDMeTnmcDRQD5Zzc51iXlqO79Oa7Mh"}

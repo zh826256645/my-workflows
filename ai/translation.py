@@ -1,14 +1,20 @@
-#!/usr/local/bin/python3.10
+#!/Users/zhonghao/miniconda3/envs/workflows/bin/python
 """
 让 AI 生成变量名
 """
+
 import re
 import sys
 from os.path import abspath, dirname, join
 
 sys.path.insert(0, join(abspath(dirname(__file__)), "../"))
 
-from ai.utils import get_deepseek_message, get_ollama_message
+from ai.utils import (
+    get_deepseek_message,
+    get_model_scope_message,
+    get_nvidia_nim_message,
+    get_ollama_message,
+)
 from public.base import QueryHandlerAbstract
 from public.thread_base import QueryThreadBase
 
@@ -62,7 +68,19 @@ from public.thread_base import QueryThreadBase
 # 请翻译:
 
 # """
-prompt = """你是一个中英文翻译专家，将用户输入的中文翻译成英文，或将用户输入的英文翻译成中文。对于非中文内容，它将提供中文翻译结果。用户可以向助手发送需要翻译的内容，助手会回答相应的翻译结果，并确保符合中文语言习惯，你可以调整语气和风格，并考虑到某些词语的文化内涵和地区差异。同时作为翻译家，需将原文翻译成具有信达雅标准的译文。\"信\" 即忠实于原文的内容与意图；\"达\" 意味着译文应通顺易懂，表达清晰；\"雅\" 则追求译文的文化审美和语言的优美。目标是创作出既忠于原作精神，又符合目标语言文化和读者审美的翻译。"""
+prompt = """你是一个专业的中英互译翻译器。你的任务是将输入的文本翻译成另一种语言（中文→英文，英文→中文）。
+
+要求：
+1. 只输出翻译后的文本，不要添加任何解释、注释或额外说明
+2. 不要输出"译文："、"翻译结果："等前缀标签
+3. 保持原文的语气、风格和专业术语
+4. 确保翻译准确、流畅、自然
+
+示例：
+输入："今天天气真好。" → 输出："It's a beautiful day."
+输入："Hello, how are you?" → 输出："你好，你好吗？"
+
+现在，请直接输出翻译结果："""
 
 # messages = [
 #     {
@@ -88,7 +106,6 @@ messages = [
 
 
 class AiTranslationHandler(QueryHandlerAbstract):
-
     @property
     def ai_name(self):
         return "AI"
@@ -110,11 +127,12 @@ class AiTranslationHandler(QueryHandlerAbstract):
 
     def get_translation_text(self, content: str) -> str:
         # pattern = r"译文：\n*(.+)\n{0,1}"
-        pattern = r"\n*(.+)\n{0,1}"
-        matches = re.findall(pattern, content, re.DOTALL)
-        if matches:
-            return matches[0].split("\n")[0]
-        return ""
+        # pattern = r"\n*(.+)\n{0,1}"
+        # matches = re.findall(pattern, content, re.DOTALL)
+        # if matches:
+        # return matches[0].split("\n")[0]
+        # return ""
+        return content
 
     def get_result(self, query: str) -> dict:
         items = []
@@ -174,10 +192,48 @@ class DeepseekTranslationHandler(AiTranslationHandler):
         return ai_message.content
 
 
+class ModelScopeTranslationHandler(AiTranslationHandler):
+    """通过魔搭翻译"""
+
+    @property
+    def ai_name(self):
+        return "ModelScope"
+
+    def get_ai_message(self, query):
+        _messages = messages[:]
+        _messages.append({"role": "user", "content": query})
+        # _messages = [
+        #     {
+        #         "role": "user",
+        #         "content": prompt + query,
+        #     },
+        # ]
+        ai_message = get_model_scope_message(_messages)
+        return ai_message.content
+
+
+class NvidiaNIMTranslationHandler(AiTranslationHandler):
+    """通过 Nvidia NIM 翻译"""
+
+    @property
+    def ai_name(self):
+        return "Nvidia NIM"
+
+    def get_ai_message(self, query):
+        _messages = messages[:]
+        _messages.append({"role": "user", "content": query})
+        ai_message = get_nvidia_nim_message(
+            _messages, model="mistralai/ministral-14b-instruct-2512"
+        )
+        return ai_message.content
+
+
 def main():
     thread_base = QueryThreadBase()
-    thread_base.add_handler(OllamaTranslationHandler())
+    # thread_base.add_handler(OllamaTranslationHandler())
     thread_base.add_handler(DeepseekTranslationHandler())
+    # thread_base.add_handler(ModelScopeTranslationHandler())
+    # thread_base.add_handler(NvidiaNIMTranslationHandler())
 
     thread_base.main()
 

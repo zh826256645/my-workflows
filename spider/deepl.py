@@ -4,9 +4,10 @@ Deelp 爬虫
 
 https://www.deepl.com/
 """
-import time
+
 import json
 import random
+import time
 
 import requests
 
@@ -38,7 +39,9 @@ class DeeplSpider:
         }
 
     @staticmethod
-    def translation_text(text: str, target_lang: str = None, prox_setting: dict = None) -> dict:
+    def translation_text(
+        text: str, target_lang: str = None, prox_setting: dict = None
+    ) -> dict:
         """翻译文本
 
         :param str text: 文本
@@ -52,7 +55,9 @@ class DeeplSpider:
             result = DeeplSpider.identify_text_lang(text, prox_setting)
             if result:
                 text_lang = result["result"]["lang"]["detected"]
-                target_lang = DeeplSpider.target_lang_mapping.get(text_lang.upper()) or "ZH"
+                target_lang = (
+                    DeeplSpider.target_lang_mapping.get(text_lang.upper()) or "ZH"
+                )
             else:
                 target_lang = "ZH"
 
@@ -107,7 +112,9 @@ class DeeplSpider:
         # 处理 deepl 的时间戳
         text_count = len(text) + 1
         data["params"]["timestamp"] = (
-            data["params"]["timestamp"] - data["params"]["timestamp"] % text_count + text_count
+            data["params"]["timestamp"]
+            - data["params"]["timestamp"] % text_count
+            + text_count
         )
 
         data = json.dumps(data)
@@ -118,7 +125,9 @@ class DeeplSpider:
 
         headers = DeeplSpider.get_headers()
         headers["Content-Type"] = "application/json"
-        response = requests.post(url=url, data=data, headers=headers, proxies=prox_setting)
+        response = requests.post(
+            url=url, data=data, headers=headers, proxies=prox_setting
+        )
         print(response.json())
         if response.status_code == 200:
             return response.json()
@@ -196,7 +205,9 @@ class DeeplSpider:
                     "kind": "default",
                     "sentences": [{"text": line, "id": index, "prefix": ""}],
                     "preferred_num_beams": 4,
-                    "raw_en_context_after": [] if index + 1 >= length else [lines[index + 1]],
+                    "raw_en_context_after": []
+                    if index + 1 >= length
+                    else [lines[index + 1]],
                     "raw_en_context_before": [] if index == 0 else [lines[index - 1]],
                     "quality": "fast",
                 }
