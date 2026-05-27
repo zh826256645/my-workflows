@@ -294,7 +294,6 @@ my-workflows/
 │   ├── translation.py         #   AI 翻译 & 词典
 │   ├── generate_name.py       #   AI 变量名生成
 │   ├── utils.py               #   AI 后端封装（Ollama/Deepseek/ModelScope/NVIDIA）
-│   └── test_translation.py    #   翻译功能测试脚本
 ├── info/                      # 个人信息与书签
 │   ├── my_info.py             #   个人信息查询
 │   └── my_bookmarks.py        #   书签查找
@@ -305,6 +304,9 @@ my-workflows/
 │   ├── base.py                #   查询处理器基类（QueryBase + QueryHandlerAbstract）
 │   └── thread_base.py         #   多线程并发版本基类
 ├── spider/                    # 爬虫（暂无）
+├── tests/                      # 测试文件
+│   ├── __init__.py
+│   └── test_translation.py    #   翻译功能测试脚本
 ├── tools/                     # 工具集合
 │   ├── time_tools.py          #   时间工具
 │   ├── ip_tools.py            #   IP 查询
