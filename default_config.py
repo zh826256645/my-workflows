@@ -27,7 +27,7 @@ MY_BOOKMARKS = {
 IP_138 = {"token": ""}
 
 # 代理设置
-# 配置后, Deepl 的爬虫会使用代理
+# 配置后，翻译工具会使用代理
 PROXY_SETTING = None
 
 # ollama 的 host

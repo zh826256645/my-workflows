@@ -27,8 +27,6 @@
   - [汇率转换](#汇率转换)
 - [书签管理](#书签管理)
   - [Linkding 书签管理](#linkding-书签管理)
-- [爬虫](#爬虫)
-  - [Deepl 翻译爬虫](#deepl-翻译爬虫)
 - [配置说明](#配置说明)
 - [项目结构](#项目结构)
 
@@ -270,22 +268,6 @@
 
 ---
 
-## 爬虫
-
-### Deepl 翻译爬虫
-
-[代码](spider/deepl.py) | 纯类库
-
-对 Deepl 翻译 API 的逆向爬虫实现，通过 LMT_handle_jobs JSON-RPC 接口进行翻译。
-
-**提供方法：**
-- `translation_text(text, target_lang)` — 翻译文本
-- `identify_text_lang(text)` — 识别文本语言
-
-> 需配置 `PROXY_SETTING` 代理，Deepl 对国内 IP 有限制。
-
----
-
 ## 配置说明
 
 复制 `default_config.py` 为 `config.py`，按需填写：
@@ -295,7 +277,7 @@
 | `MY_INFO` | 个人信息的键值对字典 | 个人信息 |
 | `MY_BOOKMARKS` | 书签（分类 + 标题 + URL） | 书签查找 |
 | `IP_138.token` | ip138 API Token | IP 查询 |
-| `PROXY_SETTING` | HTTP/HTTPS 代理地址 | DeepL 爬虫、翻译工具 |
+| `PROXY_SETTING` | HTTP/HTTPS 代理地址 | 翻译工具 |
 | `OLLAMA_HOST` | Ollama 服务地址 | AI 翻译、AI 变量名 |
 | `DEEPSEEK_API_KEY` | DeepSeek API Key | AI 翻译、AI 变量名 |
 | `MODEL_SCOPE_API_KEY` | ModelScope API Key | AI 翻译、AI 变量名 |
@@ -322,8 +304,7 @@ my-workflows/
 ├── public/                    # 公共基础设施
 │   ├── base.py                #   查询处理器基类（QueryBase + QueryHandlerAbstract）
 │   └── thread_base.py         #   多线程并发版本基类
-├── spider/                    # 爬虫
-│   └── deepl.py               #   Deepl 翻译爬虫
+├── spider/                    # 爬虫（暂无）
 ├── tools/                     # 工具集合
 │   ├── time_tools.py          #   时间工具
 │   ├── ip_tools.py            #   IP 查询
