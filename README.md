@@ -4,6 +4,22 @@
 
 > 本项目仅包含脚本文件，请自行在 Alfred 中创建 Workflow 并导入对应脚本。
 
+## 安装
+
+项目使用 [uv](https://docs.astral.sh/uv/) 管理 Python 3.12 和项目内 `.venv`：
+
+```bash
+uv sync
+```
+
+所有脚本的 shebang 都指向项目内环境：
+
+```text
+#!/Users/zhonghao/Projects/my-workflows/.venv/bin/python
+```
+
+因此需要在当前路径运行 `uv sync`，再在 Alfred 中直接引用脚本文件。
+
 ---
 
 ## 目录
@@ -290,6 +306,10 @@
 
 ```
 my-workflows/
+├── .venv/                     # uv 创建的项目虚拟环境（不纳入版本管理）
+├── .python-version            # Python 3.12
+├── pyproject.toml             # 项目依赖
+├── uv.lock                    # 依赖锁定文件
 ├── ai/                        # AI 相关工具
 │   ├── translation.py         #   AI 翻译 & 词典
 │   ├── generate_name.py       #   AI 变量名生成

@@ -1,0 +1,17 @@
+[project]
+name = "my-workflows"
+version = "0.1.0"
+description = "Alfred workflow scripts for daily tasks"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "case-convert>=1.1.0",
+    "faker>=40.43.0",
+    "ollama>=0.6.3",
+    "openai>=3.35.1",
+    "pymongo>=4.19.0",
+    "requests>=2.34.2",
+    "translatepy>=2.3",
+]
+
+[tool.uv]
+package = false

@@ -1,4 +1,4 @@
-#!/Users/zhonghao/miniconda3/envs/workflows/bin/python
+#!/Users/zhonghao/Projects/my-workflows/.venv/bin/python
 """
 iMessages 工具
 """
@@ -47,7 +47,7 @@ class IMessageHandler(QueryHandlerAbstract):
         )
         title = res.fetchone()
         if title and "验证" in title[0]:
-            result = re.search("\d{4,6}", title[0])
+            result = re.search(r"\d{4,6}", title[0])
             if result:
                 return {
                     "arg": result.group(),

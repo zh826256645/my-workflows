@@ -1,4 +1,4 @@
-#!/Users/zhonghao/miniconda3/envs/workflows/bin/python
+#!/Users/zhonghao/Projects/my-workflows/.venv/bin/python
 """
 汇率转换工具
 """

@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/Users/zhonghao/Projects/my-workflows/.venv/bin/python
 """
 翻译工具
 """

@@ -1,1 +1,9 @@
 config.py
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.DS_Store
+!.python-version
+!uv.lock

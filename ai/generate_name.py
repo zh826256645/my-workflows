@@ -1,4 +1,4 @@
-#!/Users/zhonghao/miniconda3/envs/workflows/bin/python
+#!/Users/zhonghao/Projects/my-workflows/.venv/bin/python
 """
 让 AI 生成变量名
 """

@@ -1,4 +1,4 @@
-#!/Users/zhonghao/miniconda3/envs/workflows/bin/python
+#!/Users/zhonghao/Projects/my-workflows/.venv/bin/python
 """
 AI 翻译 & 词典工具
 - 句子 → 中英互译
