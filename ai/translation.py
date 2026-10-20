@@ -1,4 +1,4 @@
-#!/Users/zhonghao/Projects/my-workflows/.venv/bin/python
+#!/usr/bin/env -S uv run --frozen --quiet
 """
 AI 翻译 & 词典工具
 - 句子 → 中英互译

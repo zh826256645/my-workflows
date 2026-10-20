@@ -1,4 +1,4 @@
-#!/Users/zhonghao/Projects/my-workflows/.venv/bin/python
+#!/usr/bin/env -S uv run --frozen --quiet
 """
 假数据生成工具
 """

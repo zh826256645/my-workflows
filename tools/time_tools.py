@@ -1,4 +1,4 @@
-#!/Users/zhonghao/Projects/my-workflows/.venv/bin/python
+#!/usr/bin/env -S uv run --frozen --quiet
 """
 时间处理工具
 """

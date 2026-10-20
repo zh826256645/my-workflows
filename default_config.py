@@ -26,6 +26,9 @@ MY_BOOKMARKS = {
 # 从 IP 138 网站获取 api token
 IP_138 = {"token": ""}
 
+# APILayer 汇率接口的 api key
+APILAYER_API_KEY = ""
+
 # 代理设置
 # 配置后，翻译工具会使用代理
 PROXY_SETTING = None

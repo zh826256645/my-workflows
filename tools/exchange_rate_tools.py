@@ -1,4 +1,4 @@
-#!/Users/zhonghao/Projects/my-workflows/.venv/bin/python
+#!/usr/bin/env -S uv run --frozen --quiet
 """
 汇率转换工具
 """
@@ -130,8 +130,11 @@ class ExchRateHandler(QueryHandlerAbstract):
 
     def get_currency_rate(self, iso: str) -> dict | None:
         """获取货币转换数据"""
+        if not self.config.APILAYER_API_KEY:
+            return None
+
         url = f"https://api.apilayer.com/currency_data/historical?date={time.strftime('%Y-%m-%d')}&source={iso}"
-        headers = {"apikey": "eBFDMeTnmcDRQD5Zzc51iXlqO79Oa7Mh"}
+        headers = {"apikey": self.config.APILAYER_API_KEY}
         response = requests.request("GET", url, headers=headers)
         if response.status_code == 200:
             data = response.json()

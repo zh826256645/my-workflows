@@ -12,13 +12,13 @@
 uv sync
 ```
 
-所有脚本的 shebang 都指向项目内环境：
+所有脚本使用通用的 shebang，由 uv 自动定位项目环境：
 
 ```text
-#!/Users/zhonghao/Projects/my-workflows/.venv/bin/python
+#!/usr/bin/env -S uv run --frozen --quiet
 ```
 
-因此需要在当前路径运行 `uv sync`，再在 Alfred 中直接引用脚本文件。
+因此需要先确保 `uv` 已安装，并在项目根目录运行 `uv sync`。Alfred 可直接引用脚本文件，无需在 Workflow 中额外配置解释器路径。
 
 ---
 
@@ -293,6 +293,7 @@ uv sync
 | `MY_INFO` | 个人信息的键值对字典 | 个人信息 |
 | `MY_BOOKMARKS` | 书签（分类 + 标题 + URL） | 书签查找 |
 | `IP_138.token` | ip138 API Token | IP 查询 |
+| `APILAYER_API_KEY` | APILayer 汇率 API Key | 汇率转换 |
 | `PROXY_SETTING` | HTTP/HTTPS 代理地址 | 翻译工具 |
 | `OLLAMA_HOST` | Ollama 服务地址 | AI 翻译、AI 变量名 |
 | `DEEPSEEK_API_KEY` | DeepSeek API Key | AI 翻译、AI 变量名 |
